@@ -17,7 +17,7 @@ echo Fernet Key: $(kubectl get secret --namespace airflow airflow-fernet-key -o 
 ## clear all output and add the following
 ```
 fernetKey: {TYPE YOUR FERNET KEY HERE}
-webserverSecretKey: M1NvSHFpYXdibUNHUXZYV011dzVKckh1TjZaS0dwZVU=
+webserverSecretKey: {TYPE YOUR FERNET KEY HERE}
 executor: "KubernetesExecutor"
 ```
 
