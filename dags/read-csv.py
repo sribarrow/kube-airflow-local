@@ -19,7 +19,7 @@ def get_data(**kwargs):
         raise Exception(f'{response.status_code} - Unable to read file.')
 
 def view_data(**kwargs):
-    json_data = kwargs['ti'].xcom_pull(key='raw_to_json_data', task_id='get_data')
+    json_data = kwargs['ti'].xcom_pull(key='raw_to_json_data', task_ids='get_data')
     print(json_data)
     if json_data:
         data = json.loads(json_data)
