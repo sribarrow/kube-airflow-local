@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 
 default_args = {
     'owner': 'sri',
-    'start_date': datetime(year:2024, month:3, day:20),
+    'start_date': datetime(year=2024, month=3, day=20),
     'catchup': False
 }
 
