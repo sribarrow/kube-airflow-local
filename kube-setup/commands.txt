@@ -1,0 +1,55 @@
+# get info on available clusters
+kubectl cluster-info
+# get detailed info on clusters
+kubectl cluster-info dump
+# setup local bash env
+echo $BASH_VERSION
+brew install bash
+echo $BASH_VERSION $SHELL
+which bash
+echo 'source <(kubectl completion bash)' >>~/.bash_profile
+kubectl completion bash >/usr/local/etc/bash_completion.d/kubectl
+echo 'alias k=kubectl' >>~/.bash_profile\necho 'complete -o default -F __start_kubectl k' >>~/.bash_profile
+cat ~/.bash_profile
+kubectl cluster-info
+# setup local bash env
+kubectl version --client --output=yaml
+# list cluster details and default
+kubectl config get-contexts
+# set current cluster
+k config set-context docker-desktop
+# apply dashboard
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0/aio/deploy/recommended.yaml
+# start dashboard
+k proxy
+# create files and apply to cluster
+touch dashboard-adminuser.yaml
+touch dashboard-clusterrole.yaml
+touch dashboard-secret.yaml
+kubectl apply -f dashboard-adminuser.yaml
+kubectl apply -f dashboard-clusterrole.yaml
+apply -f dashboard-secret.yaml
+# generate token
+k get secret admin-user -n kubernetes-dashboard -o jsonpath={".data.token"} | base64 -d
+# install helm
+brew install helm
+helm version
+# install airflow with debug option
+(https://airflow.apache.org/docs/helm-chart/stable/index.html)
+helm repo add apache-airflow https://airflow.apache.org
+helm upgrade --install airflow apache-airflow/airflow --namespace airflow --create-namespace --debug
+# airflow run successfully
+# ***********************************
+Airflow Webserver:     kubectl port-forward svc/airflow-webserver 8080:8080 --namespace airflow
+Default Webserver (Airflow UI) Login credentials:
+    username: admin
+    password: admin
+Default Postgres connection credentials:
+    username: postgres
+    password: postgres
+    port: 5432
+# ***********************************
+# generate FernetKey
+echo Fernet Key: $(kubectl get secret --namespace airflow airflow-fernet-key -o jsonpath="{.data.fernet-key}" | base64 --decode)
+# apply config override
+helm upgrade --install airflow apache-airflow/airflow --namespace airflow --create-namespace -f values.yaml
