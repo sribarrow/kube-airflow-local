@@ -26,4 +26,27 @@ fernetKey: {TYPE YOUR FERNET KEY HERE}
 webserverSecretKey: {TYPE YOUR FERNET KEY HERE}
 executor: "KubernetesExecutor"
 ```
+# To apply config, run
+```
+helm upgrade --install airflow apache-airflow/airflow --namespace airflow --create-namespace -f values.yaml
+```
+#### Note the output this time.
+> Release "airflow" has been upgraded. Happy Helming!
+NAME: airflow
+LAST DEPLOYED: Thu Mar 21 06:02:04 2024
+NAMESPACE: airflow
+STATUS: deployed
+REVISION: 2
 
+# Link airflow to git repo
+```
+dags:
+  gitSync:
+    enabled: true
+    repo: https://github.com/sribarrow/kube-airflow-local.git
+    branch: main
+    rev: HEAD
+    depth: 1
+    maxFailures: 0
+    subPath: "dags"
+```
